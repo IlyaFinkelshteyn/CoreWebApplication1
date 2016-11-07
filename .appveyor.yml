@@ -1,29 +1,30 @@
 version: 1.0.{build}
 install:
 - dotnet restore
-- npm install -g bower
+#- npm install -g bower
 
 build:
   verbosity: minimal
   
-after_build:
-- dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
+#after_build:
+#- dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
 
 test_script:
 - cd src\CoreWebApplication1
 - ps: Start-Process dotnet -ArgumentList "run"
 - ps: Invoke-WebRequest -Uri http://localhost:5000
+- cd src\CoreWebApplication1
 
-artifacts:
-- path: dist
-  name: dist
-deploy:
-- provider: WebDeploy
-  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
-  website: ilyaf
-  username: $ilyaf
-  password:
-    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
-  artifact: dist
-  aspnet_core: true
-  aspnet_core_force_restart: true
+#artifacts:
+#- path: dist
+#  name: dist
+#deploy:
+#- provider: WebDeploy
+#  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+#  website: ilyaf
+#  username: $ilyaf
+#  password:
+#    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
+#  artifact: dist
+#  aspnet_core: true
+#  aspnet_core_force_restart: true
