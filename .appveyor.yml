@@ -10,10 +10,10 @@ build:
 #- dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
 
 test_script:
-- cd src\CoreWebApplication1
+- cd src\CoreWebApplication1 # dotnet run should be started in project folder
 - ps: Start-Process dotnet -ArgumentList "run"
 - ps: Invoke-WebRequest -Uri http://localhost:5000
-- cd src\CoreWebApplication1
+- cd %APPVEYOR_BUILD_FOLDER% # come back to solution folder
 
 #artifacts:
 #- path: dist
