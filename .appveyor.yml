@@ -1,11 +1,13 @@
 version: 1.0.{build}
 install:
-- cmd: >-
-    dotnet restore
+- dotnet restore
+- npm install -g bower
+
 build:
   verbosity: minimal
+  
 after_build:
-- cmd: dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
+- dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
 
 test_script:
 - cd src\CoreWebApplication1
