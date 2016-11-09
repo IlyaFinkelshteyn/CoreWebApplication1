@@ -11,9 +11,9 @@ build:
 
 test_script:
 - cd src\CoreWebApplication1 # dotnet run should be started in project folder
-- ps: Start-Process dotnet -ArgumentList "run"
+- ps: Start-Process dotnet -ArgumentList "run --server.urls http://0.0.0.0:5001"
 - cd %APPVEYOR_BUILD_FOLDER% # come back to solution folder
-- ps: Invoke-WebRequest -Uri http://localhost:5000
+- ps: Invoke-WebRequest -Uri http://localhost:5001
 
 #artifacts:
 #- path: dist
