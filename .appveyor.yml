@@ -1,4 +1,9 @@
 version: 1.0.{build}
+
+# new thing I was needed to add after reading https://github.com/aspnet/KestrelHttpServer/issues/639
+environment:
+  ASPNETCORE_URLS: https://*:5123 
+
 install:
 - dotnet restore
 #- npm install -g bower
@@ -11,10 +16,9 @@ build:
 
 test_script:
 - cd src\CoreWebApplication1 # dotnet run should be started in project folder
-- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-- ps: Start-Process dotnet -ArgumentList "run --server.urls http://0.0.0.0:5001"
+- ps: Start-Process dotnet -ArgumentList "run"
 - cd %APPVEYOR_BUILD_FOLDER% # come back to solution folder
-- ps: Invoke-WebRequest -Uri http://localhost:5001
+- ps: Invoke-WebRequest -Uri http://localhost:5123
 
 #artifacts:
 #- path: dist
