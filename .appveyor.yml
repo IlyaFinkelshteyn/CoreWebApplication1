@@ -1,0 +1,35 @@
+version: 1.0.{build}
+
+# new thing I was needed to add after reading https://github.com/aspnet/KestrelHttpServer/issues/639
+environment:
+  ASPNETCORE_URLS: https://*:5123 
+
+install:
+- dotnet restore
+#- npm install -g bower
+
+build:
+  verbosity: minimal
+  
+#after_build:
+#- dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
+
+test_script:
+- cd src\CoreWebApplication1 # dotnet run should be started in project folder
+- ps: Start-Process dotnet -ArgumentList "run"
+- cd %APPVEYOR_BUILD_FOLDER% # come back to solution folder
+- ps: Invoke-WebRequest -Uri http://localhost:5123
+
+#artifacts:
+#- path: dist
+#  name: dist
+#deploy:
+#- provider: WebDeploy
+#  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+#  website: ilyaf
+#  username: $ilyaf
+#  password:
+#    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
+#  artifact: dist
+#  aspnet_core: true
+#  aspnet_core_force_restart: true
