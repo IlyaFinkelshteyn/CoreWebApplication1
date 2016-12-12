@@ -14,8 +14,7 @@ artifacts:
 deploy:
   - provider: Environment 
     name: IIS2
-    on:
-      branch: develop
+
 #deploy:
 #- provider: WebDeploy
 #  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
