@@ -10,7 +10,7 @@ after_build:
 - cmd: dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
 artifacts:
 - path: dist
-  name: dist
+  name: dist.web
 deploy:
   - provider: Environment 
     name: IIS2
