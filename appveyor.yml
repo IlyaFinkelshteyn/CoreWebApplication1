@@ -12,6 +12,22 @@ artifacts:
 - path: dist
   name: dist.web
 
+before_deploy:
+- ps: >-
+    $username = "`$ilyaf4"
+
+    $password = $env:sitepwd
+
+    $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
+
+    $destination = "app_offline.htm"
+
+    $apiUrl = "https://ilyaf4.scm.azurewebsites.net/api/vfs/site/wwwroot/$destination"
+
+    $filePath = "app_offline_tmp.htm"
+
+    Invoke-RestMethod -Uri $apiUrl -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Method PUT -InFile $filePath -ContentType "multipart/form-data"
+
 deploy:
 - provider: WebDeploy
   server: https://ilyaf4.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
