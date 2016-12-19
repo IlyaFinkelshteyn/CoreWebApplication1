@@ -15,13 +15,16 @@ deploy:
   - provider: Environment 
     name: IIS2
 
-#deploy:
-#- provider: WebDeploy
-#  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
-#  website: ilyaf
-#  username: $ilyaf
-#  password:
+deploy:
+- provider: WebDeploy
+  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+  website: ilyaf
+  username: $ilyaf
+  password:
 #    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
-#  artifact: dist
-#  aspnet_core: true
-#  aspnet_core_force_restart: true
+# encrypted for local lab:
+    secure: GPGQ0Qw90iDTSnwWQDPhCrM+F9sTsm0deGjSixRWFcoQj94Xbc5lhoJCQfRJ7fDey9EaaE0bIsBRk32xjOszYw==
+  artifact: dist
+  aspnet_core: true
+  aspnet_core_force_restart: true
+  app_offline: true
