@@ -1,9 +1,10 @@
 version: 1.0.{build}
 install:
-- cmd: >-
-    dotnet restore
+- dotnet restore
+#- cmd: >-
+ #   dotnet restore
 
-    npm install -g bower
+  #  npm install -g bower
 build:
   verbosity: minimal
 after_build:
@@ -17,13 +18,13 @@ artifacts:
 
 deploy:
 - provider: WebDeploy
-  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+  server: https://ilyaf4.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
   website: ilyaf
-  username: $ilyaf
+  username: $ilyaf4
   password:
 #    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
 # encrypted for local lab:
-    secure: GPGQ0Qw90iDTSnwWQDPhCrM+F9sTsm0deGjSixRWFcoQj94Xbc5lhoJCQfRJ7fDey9EaaE0bIsBRk32xjOszYw==
+    secure: F9URlHmkI8g4upSC5LWut+6XEqv9e+nTITOPwd6sbVQtHexdJ2bETcyzuEMjZw5D595w5hqXXiuTyFVZORY0+g==
   artifact: dist.web
   aspnet_core: true
   aspnet_core_force_restart: true
