@@ -11,9 +11,9 @@ after_build:
 artifacts:
 - path: dist
   name: dist.web
-deploy:
-  - provider: Environment 
-    name: IIS2
+#deploy:
+#  - provider: Environment 
+#    name: IIS2
 
 deploy:
 - provider: WebDeploy
