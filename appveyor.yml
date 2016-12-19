@@ -28,4 +28,4 @@ deploy:
   artifact: dist.web
   aspnet_core: true
   aspnet_core_force_restart: true
-  app_offline: true
+  #app_offline: true
