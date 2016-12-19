@@ -30,7 +30,7 @@ before_deploy:
 
 deploy:
 - provider: WebDeploy
-  server: https://ilyaf4.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+  server: https://ilyaf4.scm.azurewebsites.net/msdeploy.axd?site=ilyaf4
   website: ilyaf4
   username: $ilyaf4
   password:
