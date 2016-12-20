@@ -1,0 +1,54 @@
+version: 1.0.{build}
+environment:
+  ASPNETCORE_URLS: https://*:5123
+  sitepwd:
+    secure: 6Ld20wVhIzLd+G2PlkT90wZuM4DlJLCPy+hslN4FZwlC/+QL7YzpskuA9TOhJRPSFu77ya3d1GhmdBDz7J9WzA==
+install:
+- cmd: dotnet restore
+build:
+  verbosity: minimal
+after_build:
+- cmd: dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
+test_script:
+- ps: >-
+    cd src\CoreWebApplication1
+
+    Start-Process dotnet -ArgumentList "run"
+
+    Invoke-WebRequest -Uri http://localhost:5000
+artifacts:
+- path: dist
+  name: dist
+before_deploy:
+- ps: >-
+    $username = "`$ilyaf4"
+        $password = $env:sitepwd
+        $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
+        $Headers = @{
+          'Authorization' = ('Basic {0}' -f $base64AuthInfo)
+          'If-Match'      = '*'
+        }
+        $apiUrl = "https://ilyaf4.scm.azurewebsites.net/api/vfs/site/wwwroot/app_offline.htm"
+        $filePath = "app_offline_tmp.htm"
+        Invoke-RestMethod -Uri $apiUrl -Headers $Headers -Method PUT -InFile $filePath -ContentType "multipart/form-data"
+deploy:
+- provider: WebDeploy
+  server: https://ilyaf.scm.azurewebsites.net/msdeploy.axd?site=ilyaf
+  website: ilyaf
+  username: $ilyaf
+  password:
+    secure: tA6+Xicg1ODbSh8ZHVDfwexonH7ZAWOrSNXrtCMD2Dd9CCK0KMCIAqfz3vTAQ4FwVjJscJf1D2G8W+PTVpfdSA==
+  artifact: dist
+  aspnet_core: true
+  aspnet_core_force_restart: true
+after_deploy:
+- ps: >-
+    $username = "`$ilyaf4"
+        $password = $env:sitepwd
+        $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
+        $Headers = @{
+          'Authorization' = ('Basic {0}' -f $base64AuthInfo)
+          'If-Match'      = '*'
+        }
+        $apiUrl = "https://ilyaf4.scm.azurewebsites.net/api/vfs/site/wwwroot/app_offline.htm"
+        Invoke-RestMethod -Uri $apiUrl -Headers $Headers -Method DELETE
