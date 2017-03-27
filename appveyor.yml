@@ -1,0 +1,25 @@
+version: 1.0.{build}
+install:
+- cmd: >-
+    dotnet restore
+
+    npm install -g bower
+build:
+  verbosity: minimal
+after_build:
+- cmd: dotnet publish src\CoreWebApplication1 --output %appveyor_build_folder%\dist
+artifacts:
+- path: dist
+  name: dist.web
+
+deploy:
+- provider: WebDeploy
+  server: https://ilyaf4.scm.azurewebsites.net/msdeploy.axd?site=ilyaf4
+  website: ilyaf4
+  username: $ilyaf4
+  password:
+    secure: 6Ld20wVhIzLd+G2PlkT90wZuM4DlJLCPy+hslN4FZwlC/+QL7YzpskuA9TOhJRPSFu77ya3d1GhmdBDz7J9WzA==
+  artifact: dist.web
+  aspnet_core: true
+  aspnet_core_force_restart: true
+  app_offline: true
