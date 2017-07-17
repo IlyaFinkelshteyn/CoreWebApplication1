@@ -5,6 +5,8 @@ hosts:
   
 install:
 - cmd: >-
+    ping api.nuget.org
+
     dotnet restore
 
     npm install -g bower
